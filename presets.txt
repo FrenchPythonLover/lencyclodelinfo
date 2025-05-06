@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<script src="../socket.io.js"></script>
+<head>
+    <!-- Mon stylesheet -->
+    <link rel="stylesheet" href="../../css/main.css">
+    <!-- Mon js -->
+    <script src="/js/main.js"></script>
+    <!-- bootstrap (3) - pour le style de la page. -->
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+ 
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>L'encyclopédie de l'info - Nom</title>
+</head>
+<body bgcolor="grey">
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <a href="/accueil.html" class="navbar-brand">L'encyclo de l'info - <script>document.write(localStorage.getItem("username"));</script></a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li class="active"><a href="../../accueil.html">Accueil</a></li>
+            <li class="active"><a href="../../index.html">Methodes de connexion</a></li>
+            <li class="active"><a href="../../idx.html" class="active">Index des articles</a></li>
+            <li class="active"><a href="../../credits.html">A propos...</a></li>
+        </ul>
+    </nav>
+    <div class="txt article">
+    </div>
+    <br><br><br>
+    <div class="comms">
+        <h1>Commentaires:</h1>
+        <p id="refresh"></p>
+        <div id="coms">
+            <p id="comzone">
+
+            </p>
+            <br><br><br>
+
+            
+            <textarea name="sndcom" id="sndcom" rows="5" placeholder="Entrez votre commentaire ici..."></textarea>
+            <br>
+            <button onclick="send();" class="btn-primary boutonPtit">
+                Envoyez
+            </button>
+            <br><br>
+            <button class="btn-info boutonPtit" onclick="coms('refresh');">Rafraichir</button>
+        </div>
+        <center>
+            <h1 class="titre">
+                Merci d'avoir regardé cet article !
+                <h4>Visitez régulièrement le site pour découvrir des nouveautés !</h4>
+            </h1>
+        </center>
+    </div>
+</body>
+<script>
+
+const socket = io("http://109.17.132.241:3630");
+socket.emit("message","Connecté !");
+let statusb = document.getElementById("refresh");
+let comelem = document.getElementById("sndcom");
+
+function coms(action){
+    if (action == "refresh"){
+        socket.emit("refresh","", (response) => {
+            if (response == null){
+                statusb.style = "color: red;";
+                statusb.style = "color: red;";
+                statusb.textContent = "Aucun nouveaux commentaires.Essayez de reafraichir plus tard.";
+            }else if (response !== null) {
+                console.log(response)
+                statusb.style = "color: green;"
+                statusb.textContent = "Voici les commentaires trouvés :"
+                console.log(response);
+                let c1 = document.getElementById("comzone");
+                c1.innerHTML = response;
+            }
+        });
+    }else{
+        statusb.style = "color: red;";
+        statusb.innerHTML = `
+        <p><strong>La connection avec le serveur externe à échoué !</strong><br>
+        Mais, vous pouvez toujours regarder l'article!</p>
+        `;
+    }
+}
+
+function send(){
+    socket.emit("append","",comelem.value, (response) => {
+        if (response == "200"){
+            statusb.style = "color: blue;";
+            statusb.textContent = "Commentaire enregistré! Actualisation...";
+            coms("refresh");
+
+        }
+    });
+}
+
+</script>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <script src="/articles/socket.io.js"></script>
+    <!-- Mon stylesheet -->
+    <link rel="stylesheet" href="./css/main.css">
+    <!-- Mon js -->
+    <script src="/js/main.js"></script>
+    <!-- bootstrap (3) - pour le style de la page. -->
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>L'encyclopédie de l'info - Se connecter</title>
+</head>
+<body>
+    <div class="alert alert-dismissible alert-info">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <h3 id="info">Vous êtes sur une version <strong>experimentale</strong>  du site !</h3>
+    </div>
+    <div class="txt">
+        <p>Remplissez les données suivantes pour se connecter:</p>
+        <br>
+        <p id="status"></p>
+
+        <label for="text">Nom d'utilisateur</label>
+        <input type="text" class="form-control" required id="nom" placeholder="Entrez ici...">
+        <label for="mdp">Mot de passe:</label>
+        <input type="password" class="form-control" id="mdp" required placeholder="Entrez ici...">
+        <br>
+        <button onclick="loginf();" type="submit" class="btn-success bouton" value="Se connecter">Se connecter</button>
+
+        <p>Vous n'avez pas de compte ? <a href="./crtacc.html">S'inscrire ici</a></p>
+    </div>
+</body>
+<script>
+    const socket = io("http://dailya.freeboxos.fr:3630");
+    socket.emit("message","loginer");
+    function loginf(){
+        const status = document.getElementById("status");
+        const username = document.getElementById("nom").value;
+        const mdp = document.getElementById("mdp").value;
+        socket.emit("login",username,mdp, (response) => {
+            if (response == "200"){
+                localStorage.clear();
+                localStorage.setItem("username", username);
+                setuser(username);
+                window.location.href = "./accueil.html";
+            }
+            if (response == "no"){
+                status.style = "color: red;";
+                status.innerHTML = "<strong>Erreur:</strong> Compte ou mot de passe invalide. :(";
+            }
+        });
+    }
+</script>
+</html>

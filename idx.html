@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Mon stylesheet -->
+    <link rel="stylesheet" href="./css/main.css">
+    <!-- Mon js -->
+    <script src="js/main.js"></script>
+    <!-- bootstrap (3) - pour le style de la page. -->
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>L'encyclopédie de l'info - Index des articles</title>
+</head>
+<body>
+    <div class="txt">
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <a href="#" class="navbar-brand">L'encyclo de l'info</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li class="active"><a href="./accueil.html">Accueil</a></li>
+            <li class="active"><a href="./index.html">Methodes de connexion</a></li>
+            <li class="active"><a href="./idx.html" class="active">Index des articles</a></li>
+            <li class="active"><a href="./credits.html">A propos...</a></li>
+        </ul>
+    </nav>
+    <div id="fnav">
+        <li><a href="#Programmation">Programmation</a></li>
+        <li><a href="#Autres">Autres</a></li>
+    </div>
+    <br><br><br>
+    <div id="Programmation">
+    <h1>Programmation</h1>
+    <li><button onclick='location.href = "./articles/html/html.html"' class="btn btn-info">Html</button></li>
+    <li><button class="btn btn-info" onclick='location.href = "./articles/css/css.html"'>Css</button></li>
+    <li><button class="btn btn-info" disabled>Python</button></li>
+    </div>
+    <br><br><br>
+    </div>
+
+</body>
+</html>
